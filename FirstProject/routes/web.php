@@ -42,18 +42,15 @@ Route::get('course/create', function () {
 });
 
 
-
-
 Route::get('student/index', 'Student\StudentController@index');
-
-
-
-
-
-
-
-
-
 
 Route::get('course/view/collage/filter', 'CourseController@search');
 Route::get('course/view/{id}/{name}', 'CourseController@get_courses');
+
+
+Route::get('student/profile/{id}', 'StudenController@profile');
+Route::get('student/{id}/profile', 'StudentController@profile');
+
+
+Route::get('student/create', 'Student\StudentController@create');
+Route::post('student/store/{p}', 'Student\StudentController@store');
