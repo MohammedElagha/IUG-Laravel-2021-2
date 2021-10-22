@@ -54,3 +54,10 @@ Route::get('student/{id}/profile', 'StudentController@profile');
 
 Route::get('student/create', 'Student\StudentController@create');
 Route::post('student/store/{p}', 'Student\StudentController@store');
+
+
+Route::get('owner/create', 'Owner\OwnerController@create');
+Route::post('owner/store', 'Owner\OwnerController@store');
+Route::get('owner', 'Owner\OwnerController@index');
+
+Route::get('car/create', 'Car\CarController@create');
