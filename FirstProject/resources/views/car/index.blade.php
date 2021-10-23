@@ -1,7 +1,7 @@
 @extends('layouts.main')
 				
 				@section('heading')
-				<h1>View Owner</h1>
+				<h1>View Cars</h1>
 				@stop
 
 		
@@ -11,16 +11,20 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
-							<th>Name</th>
-							<th>Phone</th>
+							<th>Brand</th>
+							<th>Model</th>
+							<th>Owner</th>
+							<th>actions</th>
 						</tr>
 					</thead>
 
 					<tbody>
-						@foreach ($owners as $owner)
+						@foreach ($cars as $car)
 							<tr>
-								<td>{{ $owner->name }}</td>
-								<td>{{ $owner->phone }}</td>
+								<td>{{ $car->brand }}</td>
+								<td>{{ $car->model }}</td>
+								<td>{{ $car->owner_name }}</td>
+								<td><a href="{{ URL('car/' . $car->id . '/edit') }}">EDIT</a></td>
 							</tr>
 						@endforeach
 					</tbody>
