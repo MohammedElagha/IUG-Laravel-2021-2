@@ -65,3 +65,4 @@ Route::post('car/store', 'Car\CarController@store');
 Route::get('car', 'Car\CarController@index');
 Route::get('car/{id}/edit', 'Car\CarController@edit');
 Route::post('car/update/{id}', 'Car\CarController@update');
+Route::post('car/delete/{id}', 'Car\CarController@destroy');

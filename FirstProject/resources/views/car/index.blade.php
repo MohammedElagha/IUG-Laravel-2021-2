@@ -24,7 +24,15 @@
 								<td>{{ $car->brand }}</td>
 								<td>{{ $car->model }}</td>
 								<td>{{ $car->owner_name }}</td>
-								<td><a href="{{ URL('car/' . $car->id . '/edit') }}">EDIT</a></td>
+								<td>
+									<a href="{{ URL('car/' . $car->id . '/edit') }}" class="btn btn-success">EDIT</a> 
+
+									<form action="{{ URL('car/delete/' . $car->id) }}" method="POST">
+										@csrf
+
+										<button type="submit" class="btn btn-danger">delete</button>
+									</form>
+								</td>
 							</tr>
 						@endforeach
 					</tbody>

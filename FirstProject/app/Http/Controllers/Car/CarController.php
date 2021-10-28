@@ -69,4 +69,11 @@ class CarController extends Controller
 
         return redirect()->back();
     }
+
+
+    public function destroy ($id) {
+        $query = "delete from cars where id = $id";
+        $result = DB::statement($query);
+        return redirect()->back();
+    }
 }
