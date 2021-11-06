@@ -29,22 +29,39 @@ class CarController2 extends Controller
 
 
     public function index () {
-        // id, brand, model, owner_id
+    /*
+    owners: id, name, phone
+    cars: id, brand, model, owner_id
+    
+    select cars.*, owners.name as owner_name, CONCAT(cars.brand, '-', cars.model) as description
+    from cars 
+    left join owners on (cars.owner_id = owners.id and owners.phone is not null)
+    where (cars.brand = 'BMW' and cars.model = 'X5')
+    or (cars.brand = 'MB' or (cars.owner_id is not null and owners.phone is not null))
+    */
+        
+    $car_brand = 'BMW';
 
-        // car: id, brand, model .. owner: name
+    $cars = DB::table('cars')
+        ->leftJoin('owners', function ($join) {
+            $join->on('cars.owner_id', 'owners.id');
+            $join->whereNotNull('owners.phone');
+        })
 
-
-        /*
-            select cars.*, owners.name as owner_name 
-            from cars 
-            left join owners on cars.owner_id = owners.id
-        */
-
-        $cars = DB::table('cars')
-                ->leftJoin('owners', 'cars.owner_id', 'owners.id')
-                ->select('cars.*', 'owners.name as owner_name')
-                ->orderBy('cars.id', 'DESC')
-                ->get();
+        ->where(function ($query) use ($car_brand) {
+            $query->where('cars.brand', $car_brand)
+                    ->where('cars.model', 'X5');
+        })
+        ->orWhere(function ($query) {
+            $query->where('cars.brand', 'MW')
+                    ->orWhere(function ($query) {
+                        $query->whereNotNull('cars.owner_id');
+                        $query->whereNotNull('owners.phone');
+                    });
+        })
+        // ->whereRaw('')
+        ->select('cars.*', 'owners.name as owner_name', DB::raw("CONCAT(cars.brand, '-', cars.model) as description"))
+        ->get();
 
         return view('car.index')->with('cars', $cars);
     }
@@ -90,3 +107,5 @@ class CarController2 extends Controller
         return redirect()->back();
     }
 }
+        
+        
