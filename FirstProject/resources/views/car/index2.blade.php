@@ -23,7 +23,7 @@
 							<tr>
 								<td>{{ $car->brand }}</td>
 								<td>{{ $car->model }}</td>
-								<td>{{ $car->owner_name }}</td>
+								<td>{{ $car->owner->name }}</td>
 								<td>
 									<a href="{{ URL('car/' . $car->id . '/edit') }}" class="btn btn-success">EDIT</a> 
 

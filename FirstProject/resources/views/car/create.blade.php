@@ -9,6 +9,8 @@
 		<div class="row">
 			<div class="col-12">
 				<form method="POST" action="{{ URL('car/store') }}">
+					@csrf
+					
 					<div class="form-group">
 						<label>Brand</label>
 						<input type="text" name="brand" class="form-control">

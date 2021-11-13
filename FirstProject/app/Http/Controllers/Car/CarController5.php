@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Car;
 
-class CarController4 extends Controller
+class CarController5 extends Controller
 {
     // brand, model, owner_id
 
@@ -39,28 +39,9 @@ class CarController4 extends Controller
         
     $car_brand = 'BMW';
 
-    $cars = Car::withTrashed()
-        ->leftJoin('owners', function ($join) {
-            $join->on('cars.owner_id', 'owners.id');
-            $join->whereNotNull('owners.phone');
-        })
+    $cars = Car::with('owner')->get();
 
-        ->where(function ($query) use ($car_brand) {
-            $query->where('cars.brand', $car_brand)
-                    ->where('cars.model', 'X5');
-        })
-        ->orWhere(function ($query) {
-            $query->where('cars.brand', 'MW')
-                    ->orWhere(function ($query) {
-                        $query->whereNotNull('cars.owner_id');
-                        $query->whereNotNull('owners.phone');
-                    });
-        })
-        // ->whereRaw('')
-        ->select('cars.*', 'owners.name as owner_name', DB::raw("CONCAT(cars.brand, '-', cars.model) as description"))
-        ->get();
-
-        return view('car.index')->with('cars', $cars);
+    return view('car.index2')->with('cars', $cars);
     }
 
 

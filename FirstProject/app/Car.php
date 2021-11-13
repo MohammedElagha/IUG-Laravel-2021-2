@@ -3,8 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Car extends Model
 {
-    protected $table = 'mycars';
+    # id, model, brand, owner_id
+
+    use SoftDeletes;
 }

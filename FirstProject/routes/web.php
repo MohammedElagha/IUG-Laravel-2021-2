@@ -60,9 +60,10 @@ Route::get('owner/create', 'Owner\OwnerController@create');
 Route::post('owner/store', 'Owner\OwnerController@store');
 Route::get('owner', 'Owner\OwnerController@index');
 
-Route::get('car/create', 'Car\CarController@create');
-Route::post('car/store', 'Car\CarController@store');
-Route::get('car', 'Car\CarController@index');
-Route::get('car/{id}/edit', 'Car\CarController@edit');
-Route::post('car/update/{id}', 'Car\CarController@update');
-Route::post('car/delete/{id}', 'Car\CarController@destroy');
+Route::get('car/create', 'Car\CarController6@create');
+Route::post('car/store', 'Car\CarController6@store');
+Route::get('car', 'Car\CarController6@index');
+Route::get('car/{id}/edit', 'Car\CarController6@edit');
+Route::post('car/update/{id}', 'Car\CarController6@update');
+Route::post('car/delete/{id}', 'Car\CarController6@destroy');
+Route::post('car/restore/{id}', 'Car\CarController6@restore');

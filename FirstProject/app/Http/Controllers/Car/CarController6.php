@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Car;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Car;
 
-class CarController2 extends Controller
+class CarController6 extends Controller
 {
     // brand, model, owner_id
 
     public function create () {
-        $owners = DB::table('owners')->get();
+        $owners = Car::all();
 
         return view('car.create')->with('owners', $owners);
     }
@@ -22,27 +23,23 @@ class CarController2 extends Controller
         $model = $request['model'];
         $owner_id = $request['owner_id'];
 
-        $result = DB::table('cars')->insert(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
+        // $result = Car::insert(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
+
+        $car = new Car;
+        $car->brand = $brand;
+        $car->model = $model;
+        $car->owner_id = $owner_id;
+        $result = $car->save();
 
         return redirect()->back();
     }
 
 
     public function index () {
-    /*
-    owners: id, name, phone
-    cars: id, brand, model, owner_id
-    
-    select cars.*, owners.name as owner_name, CONCAT(cars.brand, '-', cars.model) as description
-    from cars 
-    left join owners on (cars.owner_id = owners.id and owners.phone is not null)
-    where (cars.brand = 'BMW' and cars.model = 'X5')
-    or (cars.brand = 'MB' or (cars.owner_id is not null and owners.phone is not null))
-    */
         
     $car_brand = 'BMW';
 
-    $cars = DB::table('cars')
+    $cars = Car::withTrashed()
         ->leftJoin('owners', function ($join) {
             $join->on('cars.owner_id', 'owners.id');
             $join->whereNotNull('owners.phone');
@@ -60,7 +57,6 @@ class CarController2 extends Controller
                     });
         })
         // ->whereRaw('')
-        ->whereNull('cars.deleted_at')
         ->select('cars.*', 'owners.name as owner_name', DB::raw("CONCAT(cars.brand, '-', cars.model) as description"))
         ->get();
 
@@ -69,16 +65,8 @@ class CarController2 extends Controller
 
 
 
-    public function edit ($id) {
-        // select * from cars where id = $id limit 1
-
-        // $car = DB::table('cars')
-        //         ->where('id', '=', $id)
-        //         ->limit(1);
-        
-        $car = DB::table('cars')
-                // ->where('id', '=', $id)
-                ->where('id', '=', $id)
+    public function edit ($id) {        
+        $car = Car::where('id', '=', $id)
                 ->where('cars.brand', 'LIKE', '%BMW')
                 ->whereNull('cars.owner_id')
                 ->whereNotNull('cars.brand')
@@ -95,16 +83,31 @@ class CarController2 extends Controller
         $model = $request['model'];
         $owner_id = $request['owner_id'];
 
-        $result = DB::table('cars')
-                ->where('id', $id)
-                ->update(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
+        // $result = Car::where('id', $id)
+        //         ->update(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
+
+        // $car = Car::where('id', $id)->first();
+        $car = Car::find($id);
+        $car->brand = $brand;
+        $car->model = $model;
+        $car->owner_id = $owner_id;
+        $result = $car->save();
 
         return redirect()->back();
     }
 
 
     public function destroy ($id) {
-        $result = DB::table('cars')->where('id', $id)->delete();
+        // $result = Car::where('id', $id)->delete();
+
+        $car = Car::find($id);
+        $result = $car->delete();
+        return redirect()->back();
+    }
+
+
+    public function restore ($id) {
+        $result = Car::withTrashed()->where('id', $id)->restore();
         return redirect()->back();
     }
 }
