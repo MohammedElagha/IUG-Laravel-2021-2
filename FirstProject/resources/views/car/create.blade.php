@@ -6,9 +6,18 @@
 
 		
 		@section('content_body')
+
+		<div class="row">
+			@foreach ($errors->all() as $msg)
+				<div class="col-12">
+					<div class="alert alert-danger">{{ $msg }}</div>
+				</div>
+			@endforeach
+		</div>
+
 		<div class="row">
 			<div class="col-12">
-				<form method="POST" action="{{ URL('car/store') }}">
+				<form method="POST" action="{{ URL('car/store') }}" enctype="multipart/form-data">
 					@csrf
 					
 					<div class="form-group">
@@ -28,6 +37,11 @@
 								<option value="{{ $owner->id }}">{{ $owner->name }}</option>
 							@endforeach
 						</select>
+					</div>
+
+					<div class="form-group">
+						<label>image</label>
+						<input type="file" name="image" class="form-control">
 					</div>
 
 					<button class="btn btn-primary">Save</button>

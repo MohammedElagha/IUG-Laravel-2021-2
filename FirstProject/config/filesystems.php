@@ -65,6 +65,10 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
         ],
 
+        'storage' => [
+            'root' => app_path() . '../myprojectstorage'
+        ]
+
     ],
 
     /*

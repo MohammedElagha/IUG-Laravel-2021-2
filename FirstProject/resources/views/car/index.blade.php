@@ -11,6 +11,7 @@
 				<table class="table table-bordered">
 					<thead>
 						<tr>
+							<th></th>
 							<th>Brand</th>
 							<th>Model</th>
 							<th>Owner</th>
@@ -21,6 +22,7 @@
 					<tbody>
 						@foreach ($cars as $car)
 							<tr>
+								<td><img width="100px" src="{{ env('STORAGE_URL') . '/' . $car->image }}"></td>
 								<td>{{ $car->brand }}</td>
 								<td>{{ $car->model }}</td>
 								<td>{{ $car->owner_name }}</td>
@@ -30,12 +32,14 @@
 									@if ($car->deleted_at == null)
 									<form action="{{ URL('car/delete/' . $car->id) }}" method="POST">
 										@csrf
+										@method('DELETE')
 
 										<button type="submit" class="btn btn-danger">delete</button>
 									</form>
 									@else
 									<form action="{{ URL('car/restore/' . $car->id) }}" method="POST">
 										@csrf
+										@method('DELETE')
 
 										<button type="submit" class="btn btn-info">restore</button>
 									</form>
@@ -45,6 +49,12 @@
 						@endforeach
 					</tbody>
 				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-12">
+				{{ $cars->links() }}
 			</div>
 		</div>
 

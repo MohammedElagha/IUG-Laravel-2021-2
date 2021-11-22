@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Car;
+use App\Http\Requests\AddCarRequest;
+use Illuminate\Support\Facades\Storage;
 
 class CarController6 extends Controller
 {
@@ -25,10 +27,23 @@ class CarController6 extends Controller
 
         // $result = Car::insert(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
 
+        $file = $request->file('image');
+
+        $file_name = time() . rand(1, 100000000000000);
+        $ext = $file->getClientOriginalExtension();
+        $path = "uploads/cars/$file_name.$ext";
+
+        Storage::disk('local')->put($path, file_get_contents($file));
+
+        if (file_exists(storage_path("app/$path"))) {
+
+        }
+
         $car = new Car;
         $car->brand = $brand;
         $car->model = $model;
         $car->owner_id = $owner_id;
+        $car->image = $path;
         $result = $car->save();
 
         return redirect()->back();
@@ -45,20 +60,20 @@ class CarController6 extends Controller
             $join->whereNotNull('owners.phone');
         })
 
-        ->where(function ($query) use ($car_brand) {
-            $query->where('cars.brand', $car_brand)
-                    ->where('cars.model', 'X5');
-        })
-        ->orWhere(function ($query) {
-            $query->where('cars.brand', 'MW')
-                    ->orWhere(function ($query) {
-                        $query->whereNotNull('cars.owner_id');
-                        $query->whereNotNull('owners.phone');
-                    });
-        })
+        // ->where(function ($query) use ($car_brand) {
+        //     $query->where('cars.brand', $car_brand)
+        //             ->where('cars.model', 'X5');
+        // })
+        // ->orWhere(function ($query) {
+        //     $query->where('cars.brand', 'MW')
+        //             ->orWhere(function ($query) {
+        //                 $query->whereNotNull('cars.owner_id');
+        //                 $query->whereNotNull('owners.phone');
+        //             });
+        // })
         // ->whereRaw('')
         ->select('cars.*', 'owners.name as owner_name', DB::raw("CONCAT(cars.brand, '-', cars.model) as description"))
-        ->get();
+        ->paginate(3);
 
         return view('car.index')->with('cars', $cars);
     }

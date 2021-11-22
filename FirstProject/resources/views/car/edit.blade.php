@@ -9,6 +9,9 @@
 		<div class="row">
 			<div class="col-12">
 				<form method="POST" action="{{ URL('car/update/' . $car->id) }}">
+					@csrf
+					@method('PUT')
+
 					<div class="form-group">
 						<label>Brand</label>
 						<input type="text" name="brand" class="form-control" value="{{ $car->brand }}">
