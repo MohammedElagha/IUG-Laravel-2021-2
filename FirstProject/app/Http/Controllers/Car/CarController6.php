@@ -8,12 +8,16 @@ use Illuminate\Support\Facades\DB;
 use App\Car;
 use App\Http\Requests\AddCarRequest;
 use Illuminate\Support\Facades\Storage;
+use Session;
 
 class CarController6 extends Controller
 {
     // brand, model, owner_id
 
     public function create () {
+        // Session::put(['name' => 'Ahmed', 'id' => 55]);
+        session()->put(['name' => 'Ahmed', 'id' => 55]);
+
         $owners = Car::all();
 
         return view('car.create')->with('owners', $owners);
@@ -21,7 +25,7 @@ class CarController6 extends Controller
 
 
     public function store (Request $request) {
-        $brand = $request['brand'];
+        $brand = $request['brand'];     // Request::get('brand')  ,, request('brand')
         $model = $request['model'];
         $owner_id = $request['owner_id'];
 
@@ -46,11 +50,14 @@ class CarController6 extends Controller
         $car->image = $path;
         $result = $car->save();
 
-        return redirect()->back();
+        return redirect()->back()->with('status', $result);
     }
 
 
     public function index () {
+
+    $user_name = session('name');
+    // dd($user_name);
         
     $car_brand = 'BMW';
 
@@ -75,7 +82,7 @@ class CarController6 extends Controller
         ->select('cars.*', 'owners.name as owner_name', DB::raw("CONCAT(cars.brand, '-', cars.model) as description"))
         ->paginate(3);
 
-        return view('car.index')->with('cars', $cars);
+        return view('car.index')->with('cars', $cars)->with('user_name', $user_name);
     }
 
 

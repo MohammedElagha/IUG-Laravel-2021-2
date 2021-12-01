@@ -13,6 +13,18 @@
 					<div class="alert alert-danger">{{ $msg }}</div>
 				</div>
 			@endforeach
+
+			@if (session()->has('status'))
+				@if (session('status'))
+					<div class="col-12">
+						<div class="alert alert-success">SUCCESS</div>
+					</div>
+				@else
+					<div class="col-12">
+						<div class="alert alert-danger">FAILED</div>
+					</div>
+				@endif
+			@endif
 		</div>
 
 		<div class="row">

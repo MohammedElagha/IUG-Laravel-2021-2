@@ -60,9 +60,9 @@ Route::get('owner/create', 'Owner\OwnerController@create');
 Route::post('owner/store', 'Owner\OwnerController@store');
 Route::get('owner', 'Owner\OwnerController@index');
 
-Route::get('car/create', 'Car\CarController6@create');
+Route::get('car/create', 'Car\CarController6@create')->middleware('lang');
 Route::post('car/store', 'Car\CarController6@store');
-Route::get('car', 'Car\CarController6@index');
+Route::get('car', 'Car\CarController6@index')->middleware(['lang', 'country']);
 Route::get('car/{id}/edit', 'Car\CarController6@edit');
 Route::put('car/update/{id}', 'Car\CarController6@update');
 Route::delete('car/delete/{id}', 'Car\CarController6@destroy');

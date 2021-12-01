@@ -6,6 +6,9 @@
 
 		
 		@section('content_body')
+		<h1>User: {{ $user_name }}</h1>
+		<h1>User: {{ session('name') }}</h1>
+
 		<div class="row">
 			<div class="col-12">
 				<table class="table table-bordered">

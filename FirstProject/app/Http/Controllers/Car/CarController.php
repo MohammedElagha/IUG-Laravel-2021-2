@@ -12,18 +12,24 @@ class CarController extends Controller
 
     public function create () {
         $owners = DB::select("select * from owners");
+
+
         return view('car.create')->with('owners', $owners);
+        return View::make('car.create')->with('owners', $owners);
     }
 
 
     public function store (Request $request) {
-        $brand = $request['brand'];
+        $brand = $request['brand'];     // request('brand')
         $model = $request['model'];
         $owner_id = $request['owner_id'];
 
         $query = "insert into cars (brand, model, owner_id) value ('$brand', '$model', $owner_id)";
 
         $result = DB::statement($query);
+
+        // $request->has()
+        // request()->has()
 
         return redirect()->back();
     }
