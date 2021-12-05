@@ -9,10 +9,13 @@ use App\Car;
 use App\Http\Requests\AddCarRequest;
 use Illuminate\Support\Facades\Storage;
 use Session;
+use App\Http\Traits\CarTrait;
 
 class CarController6 extends Controller
 {
     // brand, model, owner_id
+
+    use CarTrait;
 
     public function create () {
         // Session::put(['name' => 'Ahmed', 'id' => 55]);
@@ -31,23 +34,25 @@ class CarController6 extends Controller
 
         // $result = Car::insert(['brand' => $brand, 'model' => $model, 'owner_id' => $owner_id]);
 
+        // $car_trait = new CarTrait;
+
         $file = $request->file('image');
+        // $path = $this->upload_image($file);
+        // $path = (new CarController6)->upload_image($file);
+        $path = $this->upload_image($file);
+        
 
-        $file_name = time() . rand(1, 100000000000000);
-        $ext = $file->getClientOriginalExtension();
-        $path = "uploads/cars/$file_name.$ext";
 
-        Storage::disk('local')->put($path, file_get_contents($file));
-
-        if (file_exists(storage_path("app/$path"))) {
-
-        }
+        $price = $request->input('price', 25000);
+        // $final_price = $this->compute_price($price);
+        $final_price = $this->compute_price($price);
 
         $car = new Car;
         $car->brand = $brand;
         $car->model = $model;
         $car->owner_id = $owner_id;
         $car->image = $path;
+        $car->final_price = $final_price;
         $result = $car->save();
 
         return redirect()->back()->with('status', $result);
@@ -132,6 +137,12 @@ class CarController6 extends Controller
         $result = Car::withTrashed()->where('id', $id)->restore();
         return redirect()->back();
     }
+
+
+
+    
+
+    
 }
         
         
