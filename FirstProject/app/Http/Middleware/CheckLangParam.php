@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App;
 
 class CheckLangParam
 {
@@ -19,6 +20,7 @@ class CheckLangParam
             $lang = $request->query('lang');
 
             if ($lang == 'ar' || $lang == 'en') {
+                App::setLocale($lang);
                 return $next($request);
             }
         }

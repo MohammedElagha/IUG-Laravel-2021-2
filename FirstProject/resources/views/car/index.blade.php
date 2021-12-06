@@ -1,7 +1,7 @@
 @extends('layouts.main')
 				
 				@section('heading')
-				<h1>View Cars</h1>
+				<h1>@lang('dashboard.general.view') @lang('dashboard.car.cars')</h1>
 				@stop
 
 		
@@ -15,10 +15,10 @@
 					<thead>
 						<tr>
 							<th></th>
-							<th>Brand</th>
-							<th>Model</th>
-							<th>Owner</th>
-							<th>actions</th>
+							<th>@lang('dashboard.car.brand')</th>
+							<th>@lang('dashboard.car.model')</th>
+							<th>@lang('dashboard.car.owner')</th>
+							<th>@lang('dashboard.general.action')</th>
 						</tr>
 					</thead>
 
