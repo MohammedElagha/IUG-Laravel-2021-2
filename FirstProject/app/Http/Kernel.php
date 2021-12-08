@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'lang' => \App\Http\Middleware\CheckLangParam::class,
         'country' => \App\Http\Middleware\CheckCountry::class,
+        'error' => \App\Http\Middleware\HandleError::class,
     ];
 }
