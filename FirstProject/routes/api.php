@@ -17,3 +17,9 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+
+
+Route::get('car', 'API\Car\CarController@index');
+Route::post('car/store', 'API\Car\CarController@store');
